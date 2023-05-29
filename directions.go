@@ -13,7 +13,7 @@ const (
 	Right
 )
 
-// lable
+// lable  for each direction
 
 func (d enumDirection) String() string {
 	name := []string{"up", "down", "left", "right"}
@@ -29,7 +29,7 @@ func (d enumDirection) String() string {
 type Direction struct {
 	Lable enumDirection
 
-	X, Y int
+	X, Y int // direction coordinate
 }
 
 /*
