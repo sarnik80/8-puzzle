@@ -14,5 +14,6 @@ type Node struct {
 	Level   int32
 	G_score float64
 	H_score float64
+	F_score float64
 	Parent  *Node
 }
