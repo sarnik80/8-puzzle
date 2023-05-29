@@ -1,4 +1,4 @@
-package main
+package eightpuzzle
 
 const (
 	zeroStr = "0"

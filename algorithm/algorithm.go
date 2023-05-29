@@ -1,22 +1,26 @@
 package algorithm
 
-import "strconv"
+import (
+	"strconv"
 
-type algorithm uint8
+	eightpuzzle "github.com/sarnik80/8-puzzle/eightPuzzle"
+)
+
+type algorithmName uint8
 
 const (
-	AStar = algorithm(iota)
-	BFS
-	IDS
+	AStar = algorithmName(iota)
+	Bfs
+	Ids
 	IDAStar
 )
 
 type Algorithm interface {
-	getName()
-	solve()
+	getName() algorithmName
+	solve(sorcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle
 }
 
-func (a algorithm) String() string {
+func (a algorithmName) String() string {
 	name := []string{"AStar", "BFS", "IDS", "IDAStar"}
 	i := uint8(a)
 	switch {

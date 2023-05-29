@@ -1,4 +1,4 @@
-package main
+package eightpuzzle
 
 //reachable state for 8puzzle is  =>   181,440
 
