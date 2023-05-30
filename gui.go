@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 
 	// importing fyne
@@ -9,6 +10,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
+	"github.com/sarnik80/8-puzzle/algorithm"
 )
 
 func createAndShowMyApp() {
@@ -65,7 +67,23 @@ func createAndShowMyApp() {
 
 	*/
 
-	startBTN := widget.NewButton("Start", func() {})
+	startBTN := widget.NewButton("Start", func() {
+
+		if select_entry.Text == "" {
+
+			fmt.Println("choose one strategy")
+		} else {
+			if select_entry.Text == algorithm.Bfs.String() {
+
+				bfs := algorithm.BFS{}
+				resutlt := bfs.Solve("123450678", "123456780")
+
+				fmt.Println(resutlt)
+
+			}
+		}
+
+	})
 
 	// using our widgets on our window  (Setup content)
 
