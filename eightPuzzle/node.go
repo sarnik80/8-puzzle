@@ -10,10 +10,11 @@ package eightpuzzle
 */
 
 type Node struct {
-	Data    string
-	Level   int32
-	G_score float64
-	H_score float64
-	F_score float64
-	Parent  *Node
+	Data      string
+	Level     int32
+	direction Direction
+	G_score   float64
+	H_score   float64
+	F_score   float64
+	Parent    *Node
 }
