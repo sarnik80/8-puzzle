@@ -7,7 +7,7 @@ type EghtPuzzle struct {
 	GoalState string
 }
 
-func (e EghtPuzzle) isGoal() bool {
+func (e EghtPuzzle) IsGoal() bool {
 
 	return e.State.Data == e.GoalState
 }
@@ -191,7 +191,7 @@ func (e EghtPuzzle) getChildrenData() *[]string {
 
 */
 
-func (e EghtPuzzle) getChildren() *[]*EghtPuzzle {
+func (e EghtPuzzle) GetChildren() *[]*EghtPuzzle {
 
 	childrenData := e.getChildrenData()
 	children := []*EghtPuzzle{}
