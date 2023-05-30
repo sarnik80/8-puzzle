@@ -16,8 +16,8 @@ const (
 )
 
 type Algorithm interface {
-	getName() algorithmName
-	solve(sorcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle
+	GetName() algorithmName
+	Solve(sorcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle
 }
 
 func (a algorithmName) String() string {
