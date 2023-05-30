@@ -109,17 +109,31 @@ func manhattanDistance(puzzle, goal, strNumber string) float64 {
 	return 0
 }
 
-func checkExisting(puzzle *EghtPuzzle, queue []*EghtPuzzle) *EghtPuzzle {
+func Path(solution Node) string {
 
-	for _, elm := range queue {
+	ph := []enumDirection{}
 
-		result := elm.State.Data == puzzle.State.Data
+	for solution.Parent != nil {
 
-		if result {
+		ph = append(ph, solution.direction.Lable)
+		solution = *solution.Parent
 
-			return elm
-		}
 	}
 
-	return nil
+	return reverse(ph)
+}
+
+func reverse(slc []enumDirection) string {
+
+	rev_slc := []string{}
+
+	for i := range slc {
+		// reverse the order
+		rev_slc = append(rev_slc, slc[len(slc)-1-i].String())
+
+	}
+
+	result := strings.Join(rev_slc, "->")
+
+	return result
 }
