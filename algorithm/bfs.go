@@ -89,7 +89,7 @@ func (b BFS) Solve(sourcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle {
 
 		for _, child := range *currentPuzzle.GetChildren() {
 
-			_, check := visited[child.State.Data]
+			check := visited[child.State.Data]
 
 			if check == false {
 
