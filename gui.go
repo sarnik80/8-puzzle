@@ -59,6 +59,8 @@ func createAndShowMyApp() {
 
 	})
 
+	lable := widget.NewLabel("")
+
 	/*
 
 	 create and use button  to start processing
@@ -73,14 +75,12 @@ func createAndShowMyApp() {
 
 			fmt.Println("choose one strategy")
 		} else {
-			if select_entry.Text == algorithm.Bfs.String() {
 
-				bfs := algorithm.BFS{}
-				resutlt := bfs.Solve("123450678", "123456780")
+			ch := make(chan string)
+			go bfs(ch)
 
-				fmt.Println(resutlt)
+			lable.SetText(<-ch)
 
-			}
 		}
 
 	})
@@ -91,7 +91,7 @@ func createAndShowMyApp() {
 
 		playGround, // add grid
 
-		container.NewVBox(darkMod, select_entry, startBTN),
+		container.NewVBox(darkMod, select_entry, startBTN, lable),
 	))
 
 	// Finally running our app
@@ -151,7 +151,7 @@ func createSelectEntry() *widget.SelectEntry {
 
 	//  it  takes slice of options  []string{A*, IDS, DFS, IDA*}
 
-	select_entry := widget.NewSelectEntry([]string{"A*", "IDS", "BFS", "IDA*"})
+	select_entry := widget.NewSelectEntry([]string{algorithm.AStar.String(), algorithm.IDAStar.String(), algorithm.Bfs.String(), algorithm.Ids.String()})
 
 	// what we want to do with selected entry ?!
 
@@ -162,5 +162,12 @@ func createSelectEntry() *widget.SelectEntry {
 	select_entry.SetPlaceHolder("AI Algorithm")
 
 	return select_entry
+
+}
+
+func bfs(ch chan string) {
+	bfs := algorithm.BFS{Name: algorithm.Bfs}
+
+	go bfs.Solve("123450678", "123456780", ch)
 
 }
