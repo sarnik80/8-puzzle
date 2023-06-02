@@ -109,27 +109,27 @@ func manhattanDistance(puzzle, goal, strNumber string) float64 {
 	return 0
 }
 
-func Path(solution Node) string {
+func Path(solution *Node) string {
 
-	ph := []enumDirection{}
+	ph := []string{}
 
 	for solution.Parent != nil {
 
-		ph = append(ph, solution.direction.Lable)
-		solution = *solution.Parent
+		ph = append(ph, solution.Dir.Lable.String())
+		solution = solution.Parent
 
 	}
 
 	return reverse(ph)
 }
 
-func reverse(slc []enumDirection) string {
+func reverse(slc []string) string {
 
 	rev_slc := []string{}
 
 	for i := range slc {
 		// reverse the order
-		rev_slc = append(rev_slc, slc[len(slc)-1-i].String())
+		rev_slc = append(rev_slc, slc[len(slc)-1-i])
 
 	}
 
