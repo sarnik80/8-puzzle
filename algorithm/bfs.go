@@ -56,7 +56,7 @@ func GetName() algorithmName {
 	return Bfs
 }
 
-func (b BFS) Solve(sourcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle {
+func (b BFS) Solve(sourcePuzzle, goalPuzzle string, ch chan string) {
 
 	// create source node and source puzzle
 
@@ -78,7 +78,7 @@ func (b BFS) Solve(sourcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle {
 
 		if currentPuzzle.IsGoal() {
 
-			return currentPuzzle // target node
+			ch <- eightpuzzle.Path(currentPuzzle.State) // target node
 		}
 
 		// The current node is added to the visited nodes
@@ -101,6 +101,6 @@ func (b BFS) Solve(sourcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle {
 
 	}
 
-	return nil
+	ch <- "No"
 
 }
