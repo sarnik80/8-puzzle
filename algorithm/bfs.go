@@ -56,42 +56,42 @@ func GetName() algorithmName {
 	return Bfs
 }
 
-func (b BFS) Solve(sourcePuzzle, goalPuzzle string, ch chan string) {
+func (b BFS) Solve(sourcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle {
 
-	// create source node and source puzzle
+	/*
 
-	node := &eightpuzzle.Node{Data: sourcePuzzle, Parent: nil, Level: 0}
+			 create source node and source puzzle
+		   	 start node     data = sourcpuzzle   ,  level = 0 , g_score = 0 ,  h_score = 0 , f_score = 0  parent = nil
 
-	source := eightpuzzle.EghtPuzzle{State: node, GoalState: goalPuzzle}
+	*/
+	node := eightpuzzle.CreateNode(sourcePuzzle, 0, 0, 0, 0, nil)
+	source := eightpuzzle.EghtPuzzle{State: node, GoalState: goalPuzzle} // source puzzle
 
+	//  queue of  nodes and map of visited nodes
 	queue := []*eightpuzzle.EghtPuzzle{&source}
-	visited := map[string]bool{sourcePuzzle: true}
+	visited := make(map[string]bool)
 
 	for len(queue) > 0 {
 
 		//  Among all the nodes in the queue, we delete the first node.
-
 		currentPuzzle := queue[0]
-		queue = eightpuzzle.RemoveIndex(queue, 0)
+		queue = queue[1:] // remove last node
 
 		// End of search
-
 		if currentPuzzle.IsGoal() {
 
-			ch <- eightpuzzle.Path(currentPuzzle.State) // target node
+			return currentPuzzle // target node
 		}
 
 		// The current node is added to the visited nodes
-
 		visited[currentPuzzle.State.Data] = true
 
 		// Extending  the current node
-
 		for _, child := range *currentPuzzle.GetChildren() {
 
 			check := visited[child.State.Data]
 
-			if check == false {
+			if !check {
 
 				queue = append(queue, child)
 
@@ -101,6 +101,6 @@ func (b BFS) Solve(sourcePuzzle, goalPuzzle string, ch chan string) {
 
 	}
 
-	ch <- "No"
+	return nil
 
 }
