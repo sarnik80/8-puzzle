@@ -32,7 +32,7 @@ func createAndShowMyApp() {
 
 	*/
 
-	window.Resize(fyne.NewSize(1200, 600))
+	window.Resize(fyne.NewSize(1000, 500))
 
 	//set up the main menu
 	mainMenu := createMenuItems()
@@ -60,6 +60,7 @@ func createAndShowMyApp() {
 	})
 
 	lable := widget.NewLabel("")
+	v := container.NewVBox()
 
 	/*
 
@@ -71,27 +72,32 @@ func createAndShowMyApp() {
 
 	startBTN := widget.NewButton("Start", func() {
 
+		ch := make(chan string)
+
 		if select_entry.Text == "" {
 
 			fmt.Println("choose one strategy")
 		} else {
 
-			ch := make(chan string)
 			go bfs(ch)
 
 			lable.SetText(<-ch)
+			select_entry.Text = ""
+			select_entry.Refresh()
 
 		}
 
 	})
 
+	v.Objects = append(v.Objects, lable)
+
 	// using our widgets on our window  (Setup content)
 
 	window.SetContent(container.NewHSplit(
 
-		playGround, // add grid
+		container.NewVBox(playGround, darkMod, select_entry, startBTN), // add grid
 
-		container.NewVBox(darkMod, select_entry, startBTN, lable),
+		v,
 	))
 
 	// Finally running our app
@@ -168,6 +174,6 @@ func createSelectEntry() *widget.SelectEntry {
 func bfs(ch chan string) {
 	bfs := algorithm.BFS{Name: algorithm.Bfs}
 
-	go bfs.Solve("123450678", "123456780", ch)
+	go bfs.Solve("123450678", "123456780")
 
 }
