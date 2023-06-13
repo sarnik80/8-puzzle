@@ -87,7 +87,7 @@ func (b BFS) Solve(sourcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle {
 		visited[currentPuzzle.State.Data] = true
 
 		// Extending  the current node
-		for _, child := range *currentPuzzle.GetChildren() {
+		for _, child := range currentPuzzle.GetChildren() {
 
 			check := visited[child.State.Data]
 
