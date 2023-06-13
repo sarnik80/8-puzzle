@@ -126,9 +126,10 @@ func createMove(source_i, source_j int, dir *Direction) *Direction {
 
 }
 
-func (e EghtPuzzle) getChildrenData() *map[string]Direction {
+func (e EghtPuzzle) getChildrenData() (*[]string, *[]Direction) {
 
-	childrenData := map[string]Direction{}
+	childrenData := []string{}
+	childrenDirection := []Direction{}
 
 	i, j := e.getTileCoordinates(zeroStr) //  2 , 2
 
@@ -150,11 +151,12 @@ func (e EghtPuzzle) getChildrenData() *map[string]Direction {
 
 		strData := stringedSlice(puzzle)
 
-		childrenData[strData] = move
+		childrenData = append(childrenData, strData)
+		childrenDirection = append(childrenDirection, move)
 
 	}
 
-	return &childrenData
+	return &childrenData, &childrenDirection
 }
 
 /*
@@ -191,19 +193,19 @@ func (e EghtPuzzle) getChildrenData() *map[string]Direction {
 
 */
 
-func (e EghtPuzzle) GetChildren() *[]*EghtPuzzle {
+func (e EghtPuzzle) getChildren() []*EghtPuzzle {
 
-	childrenData := e.getChildrenData()
+	childrenData, childrenDirection := e.getChildrenData()
 	children := []*EghtPuzzle{}
 
-	for data, dir := range *childrenData {
+	for i, data := range *childrenData {
 
-		child := Node{Data: data, Parent: e.State, Level: e.State.Level + 1, Dir: dir}
+		child := Node{Data: data, Parent: e.State, Level: e.State.Level + 1, G_score: e.State.Level + 1, Dir: (*childrenDirection)[i]}
 
 		childPuzzle := EghtPuzzle{State: &child, GoalState: e.GoalState}
 		children = append(children, &childPuzzle)
 
 	}
 
-	return &children
+	return children
 }
