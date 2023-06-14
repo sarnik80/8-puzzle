@@ -45,10 +45,10 @@ type Direction struct {
 
 func defineAllDirections() *[]Direction {
 
-	u := Direction{X: nOne, Y: zero, Lable: Up}
-	d := Direction{X: one, Y: zero, Lable: Down}
-	l := Direction{X: zero, Y: nOne, Lable: Left}
-	r := Direction{X: zero, Y: one, Lable: Right}
+	u := Direction{X: NOne, Y: Zero, Lable: Up}
+	d := Direction{X: One, Y: Zero, Lable: Down}
+	l := Direction{X: Zero, Y: NOne, Lable: Left}
+	r := Direction{X: Zero, Y: One, Lable: Right}
 
 	directions := []Direction{u, d, l, r}
 
