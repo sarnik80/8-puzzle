@@ -51,7 +51,7 @@ type BFS struct {
 	Name algorithmName
 }
 
-func GetName() algorithmName {
+func (b BFS) GetName() algorithmName {
 
 	return Bfs
 }
@@ -93,7 +93,8 @@ func (b BFS) Solve(sourcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle {
 
 			if !check {
 
-				queue = append(queue, &child)
+				queue = append(queue,
+					child)
 
 			}
 
