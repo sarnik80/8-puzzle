@@ -11,15 +11,15 @@ package eightpuzzle
 
 type Node struct {
 	Data    string
-	Level   int32
+	Level   int
 	Dir     Direction
-	G_score int32
-	H_score int32
-	F_score int32
+	G_score int
+	H_score int
+	F_score int
 	Parent  *Node
 }
 
-func CreateNode(data string, level int32, g_score, h_score, f_score int32, parent *Node) *Node {
+func CreateNode(data string, level int, g_score, h_score, f_score int, parent *Node) *Node {
 
 	newNode := Node{}
 
