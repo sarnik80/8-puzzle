@@ -1,6 +1,8 @@
 package eightpuzzle
 
-import "reflect"
+import (
+	"reflect"
+)
 
 type EghtPuzzle struct {
 	State     *Node
@@ -22,7 +24,7 @@ func (e EghtPuzzle) IsGoal() bool {
 
 func (e EghtPuzzle) moves() *[]Direction {
 
-	source_i, source_j := e.getTileCoordinates(zeroStr)
+	source_i, source_j := e.getTileCoordinates(ZeroStr)
 	availableDir := *e.getAvailableDirections()
 	moves := []Direction{}
 
@@ -64,7 +66,7 @@ we have 2 available directions to move  => [Up , Left]
 func (e EghtPuzzle) getAvailableDirections() *[]Direction {
 
 	// zero tile coordinate
-	i, j := e.getTileCoordinates(zeroStr)
+	i, j := e.getTileCoordinates(ZeroStr)
 
 	avDirections := findAvailableDirections(i, j)
 
@@ -131,12 +133,12 @@ func (e EghtPuzzle) getChildrenData() (*[]string, *[]Direction) {
 	childrenData := []string{}
 	childrenDirection := []Direction{}
 
-	i, j := e.getTileCoordinates(zeroStr) //  2 , 2
+	i, j := e.getTileCoordinates(ZeroStr) //  2 , 2
 
 	// Swapper() function is used to swaps the elements of slice
 
 	// zero index of 0 tile in sliced data
-	zeroIndex := i*maxRow + j // 8
+	zeroIndex := i*MaxRow + j // 8
 
 	moves := *e.moves()
 
@@ -193,7 +195,7 @@ func (e EghtPuzzle) getChildrenData() (*[]string, *[]Direction) {
 
 */
 
-func (e EghtPuzzle) getChildren() []*EghtPuzzle {
+func (e EghtPuzzle) GetChildren() []*EghtPuzzle {
 
 	childrenData, childrenDirection := e.getChildrenData()
 	children := []*EghtPuzzle{}
