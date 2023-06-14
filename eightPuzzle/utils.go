@@ -22,13 +22,13 @@ import (
 
 */
 
-func findIndex(puzzle, numbrt string) (i, j int) {
+func FindIndex(puzzle, numbrt string) (i, j int) {
 
 	index := strings.Index(puzzle, numbrt)
 
-	i = index / maxRow
+	i = index / MaxRow
 
-	j = index - (i * maxCol)
+	j = index - (i * MaxCol)
 
 	return
 
@@ -38,7 +38,7 @@ func findIndex(puzzle, numbrt string) (i, j int) {
 
 func getCoordinates(puzzle, strNumber string) (x, y int) {
 
-	x, y = findIndex(puzzle, strNumber)
+	x, y = FindIndex(puzzle, strNumber)
 
 	return
 
