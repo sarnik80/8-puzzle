@@ -136,6 +136,15 @@ func reverse(slc []string) string {
 	return result
 }
 
+/*
+
+	return value  =>   eg   123456708 -> 123456780
+
+	this function returns all the nodes of the path in the ebove format
+
+
+*/
+
 func NodesOfPath(solution *Node) string {
 	ph := []string{solution.Data}
 
