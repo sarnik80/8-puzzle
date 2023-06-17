@@ -56,7 +56,7 @@ func (b BFS) GetName() algorithmName {
 	return Bfs
 }
 
-func (b BFS) Solve(sourcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle {
+func (b BFS) Solve(sourcePuzzle, goalPuzzle string) (puzzle *eightpuzzle.EghtPuzzle, pop_nodes int, visitedNodes int) {
 
 	/*
 
@@ -71,16 +71,18 @@ func (b BFS) Solve(sourcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle {
 	queue := []*eightpuzzle.EghtPuzzle{&source}
 	visited := make(map[string]bool)
 
+	pop_nodes = 0
 	for len(queue) > 0 {
 
 		//  Among all the nodes in the queue, we delete the first node.
 		currentPuzzle := queue[0]
 		queue = queue[1:] // remove last node
+		pop_nodes++
 
 		// End of search
 		if currentPuzzle.IsGoal() {
 
-			return currentPuzzle // target node
+			return currentPuzzle, pop_nodes, len(visited) // target node
 		}
 
 		// The current node is added to the visited nodes
@@ -102,6 +104,6 @@ func (b BFS) Solve(sourcePuzzle, goalPuzzle string) *eightpuzzle.EghtPuzzle {
 
 	}
 
-	return nil
+	return nil, pop_nodes, len(visited)
 
 }
