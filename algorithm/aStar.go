@@ -1,7 +1,6 @@
 package algorithm
 
 import (
-	"fmt"
 	"sort"
 
 	eightpuzzle "github.com/sarnik80/8-puzzle/eightPuzzle"
@@ -14,42 +13,36 @@ type ASTAR struct {
 	Heuristic  heuristic.Heuristic
 }
 
-func (A ASTAR) GetName() algorithmName {
+func (a ASTAR) GetName() algorithmName {
 
 	return AStar
 }
 
-func (aStar ASTAR) solve(sourceState, goalState string) *eightpuzzle.EghtPuzzle {
-
-	i, j := eightpuzzle.FindIndex(sourceState, eightpuzzle.ZeroStr)
-
-	cost := i*3 + j
+func (aStar ASTAR) Solve(sourceState, goalState string) (solution *eightpuzzle.EghtPuzzle, pop_nodes int, visitedNodes int) {
 
 	h_value := aStar.Heuristic.H_value(sourceState, goalState)
 
-	n := eightpuzzle.Node{Data: sourceState, G_score: cost, F_score: h_value + cost, Parent: nil}
+	n := eightpuzzle.Node{Data: sourceState, F_score: h_value, Parent: nil}
 
 	source := eightpuzzle.EghtPuzzle{State: &n, GoalState: goalState}
 
 	queue := []*eightpuzzle.EghtPuzzle{&source}
 	visited := map[string]bool{}
 
-	pop_num := 0
+	pop_nodes = 0
 
 	for len(queue) != 0 {
 
 		currentPuzzle := queue[0]
-		queue = eightpuzzle.RemoveIndex(queue, 0)
-		pop_num += 1
+		pop_nodes++
 
 		if currentPuzzle.IsGoal() {
 
-			fmt.Println("OOOOO", len(queue))
-			fmt.Print(">>>visited : ", len(visited))
-			return currentPuzzle
+			return currentPuzzle, pop_nodes, len(visited)
 
 		}
 
+		queue = queue[1:] // remove last node
 		visited[currentPuzzle.State.Data] = true
 
 		for _, child := range currentPuzzle.GetChildren() {
@@ -71,5 +64,5 @@ func (aStar ASTAR) solve(sourceState, goalState string) *eightpuzzle.EghtPuzzle 
 
 	}
 
-	return nil
+	return nil, pop_nodes, len(visited)
 }
