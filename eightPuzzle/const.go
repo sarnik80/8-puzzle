@@ -7,4 +7,6 @@ const (
 	Zero    = 0
 	One     = 1
 	NOne    = -1
+
+	GoalPuzzle = "123456780"
 )
