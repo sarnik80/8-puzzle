@@ -2,15 +2,19 @@ package main
 
 import (
 	"fmt"
-	"strconv"
+	"image/color"
+	"strings"
 
 	// importing fyne
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/sarnik80/8-puzzle/algorithm"
+	eightpuzzle "github.com/sarnik80/8-puzzle/eightPuzzle"
+	"github.com/sarnik80/8-puzzle/heuristic"
 )
 
 func createAndShowMyApp() {
@@ -38,7 +42,7 @@ func createAndShowMyApp() {
 	mainMenu := createMenuItems()
 	window.SetMainMenu(mainMenu)
 
-	playGround := createPlayGround()
+	playGround := createPlayGround(strings.Split(eightpuzzle.GoalPuzzle, ""))
 
 	select_entry := createSelectEntry()
 
@@ -59,8 +63,11 @@ func createAndShowMyApp() {
 
 	})
 
-	lable := widget.NewLabel("")
 	v := container.NewVBox()
+
+	entrW := widget.NewEntry()
+
+	entrW.SetPlaceHolder(fmt.Sprintf("e.g %s", eightpuzzle.GoalPuzzle))
 
 	/*
 
@@ -72,30 +79,54 @@ func createAndShowMyApp() {
 
 	startBTN := widget.NewButton("Start", func() {
 
-		ch := make(chan string)
+		if select_entry.Text == "" || entrW.Text == "" {
 
-		if select_entry.Text == "" {
-
-			fmt.Println("choose one strategy")
+			fmt.Println("choose one strategy OR enter your puzzle sequence")
 		} else {
 
-			go bfs(ch)
+			resultPage := myApp.NewWindow(select_entry.Text)
 
-			lable.SetText(<-ch)
-			select_entry.Text = ""
-			select_entry.Refresh()
+			switch select_entry.Text {
+
+			case algorithm.AStar.String():
+
+				entrW.SetText("")
+				entrW.Refresh()
+
+				select_entry.SetText("")
+				select_entry.Refresh()
+
+				content := callAStar(entrW.Text, eightpuzzle.GoalPuzzle)
+
+				resultPage.SetContent(content)
+
+				resultPage.Show()
+
+			case algorithm.Bfs.String():
+
+				result := callBFS(entrW.Text, eightpuzzle.GoalPuzzle)
+
+				entrW.SetText("")
+				entrW.Refresh()
+
+				select_entry.SetText("")
+				select_entry.Refresh()
+				resultPage.SetContent(result)
+
+				resultPage.Show()
+
+			}
 
 		}
-
 	})
 
-	v.Objects = append(v.Objects, lable)
+	v.Objects = append(v.Objects)
 
 	// using our widgets on our window  (Setup content)
 
 	window.SetContent(container.NewHSplit(
 
-		container.NewVBox(playGround, darkMod, select_entry, startBTN), // add grid
+		container.NewVBox(playGround, darkMod, select_entry, entrW, startBTN), // add grid
 
 		v,
 	))
@@ -116,7 +147,7 @@ func createMenuItems() *fyne.MainMenu {
 	return mainMenu
 }
 
-func createPlayGround() *fyne.Container {
+func createPlayGround(plceHolders []string) *fyne.Container {
 
 	playGround := container.NewGridWithColumns(3)
 
@@ -134,7 +165,9 @@ func createPlayGround() *fyne.Container {
 
 		// setting placeHolder for Each cell
 
-		entrW.SetPlaceHolder(strconv.Itoa(i))
+		entrW.SetPlaceHolder(plceHolders[i])
+
+		entrW.Disable()
 
 		// appending to the slice of cell or our playground
 
@@ -171,9 +204,45 @@ func createSelectEntry() *widget.SelectEntry {
 
 }
 
-func bfs(ch chan string) {
+func callAStar(sourcePuzle, goalPuzzle string) *fyne.Container {
+
+	aStr := algorithm.ASTAR{Name: algorithm.AStar, Heuristic: heuristic.Manhattan{Name: heuristic.ManhattanDistance}}
+
+	resultPuzzle, pop_nodes, visitedNodes := aStr.Solve(sourcePuzle, goalPuzzle)
+
+	depth := resultPuzzle.State.Level
+	moves := eightpuzzle.Path(resultPuzzle.State)
+	resultNodes := eightpuzzle.NodesOfPath(resultPuzzle.State)
+
+	return createResultPage(resultNodes, moves, pop_nodes, visitedNodes, depth)
+}
+
+func callBFS(sourcePuzzle, goalPuzzle string) *fyne.Container {
+
 	bfs := algorithm.BFS{Name: algorithm.Bfs}
 
-	go bfs.Solve("123450678", "123456780")
+	resultPuzzle, pop_nodes, visitedNodes := bfs.Solve(sourcePuzzle, goalPuzzle)
+	depth := resultPuzzle.State.Level
 
+	moves := eightpuzzle.Path(resultPuzzle.State)
+	resultNodes := eightpuzzle.NodesOfPath(resultPuzzle.State)
+
+	return createResultPage(resultNodes, moves, pop_nodes, visitedNodes, depth)
+
+}
+
+func createResultPage(resultNodes, moves string, pop_nodes, visitedNodes, depth int) *fyne.Container {
+	initNode := createPlayGround(strings.Split(strings.Split(resultNodes, "->")[0], ""))
+
+	colorX := color.NRGBA{R: 0, G: 255, B: 0, A: 255}
+	moveTXT := canvas.NewText(fmt.Sprintf(">>> Moves : [%s]", moves), colorX)
+	resultNodesTXT := canvas.NewText(fmt.Sprintf(">>> Path Nodes : [%s]", resultNodes), colorX)
+	popTXT := canvas.NewText(fmt.Sprintf(">>> Poped Nodes : %v", pop_nodes), colorX)
+	visitedNodesTXT := canvas.NewText(fmt.Sprintf(">>> Visited Nodes : %v", visitedNodes), colorX)
+
+	depthTXT := canvas.NewText(fmt.Sprintf(">>> Depth : (%v)", depth), colorX)
+
+	vBox := container.NewVBox(initNode, resultNodesTXT, moveTXT, popTXT, visitedNodesTXT, depthTXT)
+
+	return vBox
 }
