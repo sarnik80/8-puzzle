@@ -10,6 +10,7 @@ type Manhattan struct {
 	Name Lable
 }
 
+// each heuristuc has a H_value function to calculate h(node) :)
 func (m Manhattan) H_value(puzzle string, goal string) int {
 
 	var total int

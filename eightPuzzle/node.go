@@ -19,6 +19,8 @@ type Node struct {
 	Parent  *Node
 }
 
+//constructor
+
 func CreateNode(data string, level int, g_score, h_score, f_score int, parent *Node) *Node {
 
 	newNode := Node{}

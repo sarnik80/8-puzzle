@@ -105,6 +105,19 @@ func ManhattanDistance(puzzle, goal, strNumber string) int {
 	return 0
 }
 
+/*
+
+	return moves from source node to goal
+
+	e.g  =>    source node  : 123456078
+			   goal  node   : 123456780
+
+	return value  :  right -> right
+
+
+
+*/
+
 func Path(solution *Node) string {
 
 	ph := []string{}
@@ -156,4 +169,8 @@ func NodesOfPath(solution *Node) string {
 	}
 
 	return reverse(ph)
+}
+
+func RemoveIndex(queue []*EghtPuzzle, index int) []*EghtPuzzle {
+	return append(queue[:index], queue[index+1:]...)
 }

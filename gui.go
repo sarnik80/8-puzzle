@@ -90,15 +90,15 @@ func createAndShowMyApp() {
 
 			case algorithm.AStar.String():
 
+				content := callAStar(entrW.Text, eightpuzzle.GoalPuzzle)
+
+				resultPage.SetContent(content)
+
 				entrW.SetText("")
 				entrW.Refresh()
 
 				select_entry.SetText("")
 				select_entry.Refresh()
-
-				content := callAStar(entrW.Text, eightpuzzle.GoalPuzzle)
-
-				resultPage.SetContent(content)
 
 				resultPage.Show()
 
@@ -203,6 +203,8 @@ func createSelectEntry() *widget.SelectEntry {
 	return select_entry
 
 }
+
+// new
 
 func callAStar(sourcePuzle, goalPuzzle string) *fyne.Container {
 
