@@ -69,6 +69,10 @@ func createAndShowMyApp() {
 
 	entrW.SetPlaceHolder(fmt.Sprintf("e.g %s", eightpuzzle.GoalPuzzle))
 
+	depthPath := widget.NewEntry()
+	depthPath.Disable()
+	depthPath.SetPlaceHolder("Depth limit(Default=10)")
+
 	/*
 
 	 create and use button  to start processing
@@ -115,18 +119,18 @@ func createAndShowMyApp() {
 
 				resultPage.Show()
 
+			case algorithm.Ids.String():
+
 			}
 
 		}
 	})
 
-	v.Objects = append(v.Objects)
-
 	// using our widgets on our window  (Setup content)
 
 	window.SetContent(container.NewHSplit(
 
-		container.NewVBox(playGround, darkMod, select_entry, entrW, startBTN), // add grid
+		container.NewVBox(playGround, darkMod, select_entry, entrW, depthPath, startBTN), // add grid
 
 		v,
 	))
@@ -212,11 +216,20 @@ func callAStar(sourcePuzle, goalPuzzle string) *fyne.Container {
 
 	resultPuzzle, pop_nodes, visitedNodes := aStr.Solve(sourcePuzle, goalPuzzle)
 
-	depth := resultPuzzle.State.Level
-	moves := eightpuzzle.Path(resultPuzzle.State)
-	resultNodes := eightpuzzle.NodesOfPath(resultPuzzle.State)
+	if resultPuzzle != nil {
+		depth := resultPuzzle.State.Level
+		moves := eightpuzzle.Path(resultPuzzle.State)
+		resultNodes := eightpuzzle.NodesOfPath(resultPuzzle.State)
 
-	return createResultPage(resultNodes, moves, pop_nodes, visitedNodes, depth)
+		return createResultPage(resultNodes, moves, pop_nodes, visitedNodes, depth)
+	}
+
+	colorX := color.NRGBA{R: 0, G: 255, B: 0, A: 255}
+
+	resultNodesTXT := canvas.NewText("Solution was not found!", colorX)
+	vBox := container.NewVBox(resultNodesTXT)
+
+	return vBox
 }
 
 func callBFS(sourcePuzzle, goalPuzzle string) *fyne.Container {
@@ -224,12 +237,22 @@ func callBFS(sourcePuzzle, goalPuzzle string) *fyne.Container {
 	bfs := algorithm.BFS{Name: algorithm.Bfs}
 
 	resultPuzzle, pop_nodes, visitedNodes := bfs.Solve(sourcePuzzle, goalPuzzle)
-	depth := resultPuzzle.State.Level
+	if resultPuzzle != nil {
+		depth := resultPuzzle.State.Level
 
-	moves := eightpuzzle.Path(resultPuzzle.State)
-	resultNodes := eightpuzzle.NodesOfPath(resultPuzzle.State)
+		moves := eightpuzzle.Path(resultPuzzle.State)
+		resultNodes := eightpuzzle.NodesOfPath(resultPuzzle.State)
 
-	return createResultPage(resultNodes, moves, pop_nodes, visitedNodes, depth)
+		return createResultPage(resultNodes, moves, pop_nodes, visitedNodes, depth)
+
+	}
+
+	colorX := color.NRGBA{R: 0, G: 255, B: 0, A: 255}
+
+	resultNodesTXT := canvas.NewText("Solution was not found!", colorX)
+	vBox := container.NewVBox(resultNodesTXT)
+
+	return vBox
 
 }
 
