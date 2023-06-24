@@ -32,7 +32,7 @@ import (
 		E is number of edges
 
 
-	** space complexity  of bfs  O(b^d)   => b is branching factor  and d is depth
+	** space complexity  of bfs  O(b^(d+1))   => b is branching factor  and d is depth
 
 	**if there is a solution , bfs will definitely find it
 	=> is a complete algorithm
@@ -40,6 +40,12 @@ import (
 
 	** if there is more than one solution bfs can find the
 	minimal one that  requires less  number of steps  => optimal algorithm
+
+
+
+	The number of nodes genreted by this algorithm   :=>     b  +  b ^ 2  +  ....  b ^ d  + b ^(d+1)  - b
+
+
 
 
 
