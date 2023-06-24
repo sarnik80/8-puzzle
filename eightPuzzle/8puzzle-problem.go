@@ -147,7 +147,7 @@ func (e EghtPuzzle) getChildrenData() (*[]string, *[]Direction) {
 		puzzle := slicedString(e.State.Data)
 		swap := reflect.Swapper(puzzle)
 		// destination index for 0 tile in sliced data
-		destIndex := move.X*3 + move.Y // 7
+		destIndex := move.X*MaxRow + move.Y // 7
 
 		swap(zeroIndex, destIndex)
 

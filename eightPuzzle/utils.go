@@ -138,9 +138,8 @@ func reverse(slc []string) string {
 
 	for i := range slc {
 		// reverse the order
-		if i%3 == 0 {
-			rev_slc = append(rev_slc, slc[len(slc)-1-i])
-		}
+
+		rev_slc = append(rev_slc, slc[len(slc)-1-i])
 
 	}
 
