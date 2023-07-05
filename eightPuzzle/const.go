@@ -8,5 +8,5 @@ const (
 	One     = 1
 	NOne    = -1
 
-	GoalPuzzle = "123456780"
+	GoalPuzzle = "012345678"
 )

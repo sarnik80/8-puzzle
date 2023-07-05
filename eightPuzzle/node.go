@@ -10,7 +10,7 @@ package eightpuzzle
 */
 
 type Node struct {
-	Data    string
+	Data    string //123456780
 	Level   int
 	Dir     Direction
 	G_score int

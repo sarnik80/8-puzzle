@@ -14,7 +14,7 @@ import (
 	6   5   2
 
 
-	123456780   => string
+	843701652   => string
 
 
 	index (0)  =>  in string is  :  4

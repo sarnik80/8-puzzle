@@ -35,14 +35,13 @@ func (aStar ASTAR) Solve(sourceState, goalState string) (solution *eightpuzzle.E
 
 		currentPuzzle := queue[0]
 
-		pop_nodes++
-
 		if currentPuzzle.IsGoal() {
 
 			return currentPuzzle, pop_nodes, len(visited)
 
 		}
 
+		pop_nodes++
 		queue = queue[1:] // remove last node
 		visited[currentPuzzle.State.Data] = true
 
